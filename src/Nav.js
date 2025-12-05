@@ -1,9 +1,6 @@
-import logo from './pics/logo.png'
-
 let Nav = function () {
     return <>
-        <img src={logo} alt="lemon logo"></img>
-        <ul>
+        <ul className="allNav">
             <li><a href="/">HOME</a></li>
             <li><a href="/about">ABOUT</a></li>
             <li><a href="/menu">MENU</a></li>
