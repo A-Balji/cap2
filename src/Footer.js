@@ -5,7 +5,7 @@ let Footer = function () {
     return <>
         <div className="footer">
             <img className="footCol1" src={vLogo} alt="vertical Lemon logo"
-                height="300pt" width="120pt">
+                height="300pt" width="140pt">
 
             </img>
             <div className="footCol2">
