@@ -1,12 +1,12 @@
 let Nav = function () {
     return <>
         <ul className="allNav">
-            <li><a href="/">HOME</a></li>
-            <li><a href="/about">ABOUT</a></li>
-            <li><a href="/menu">MENU</a></li>
-            <li><a href="/reservations">RESERVATIONS</a></li>
-            <li><a href="order-online">ORDER ONLINE</a></li>
-            <li><a href="/log-in">LOG IN</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/menu">Menu</a></li>
+            <li><a href="/reservations">Reservations</a></li>
+            <li><a href="order-online">Order online</a></li>
+            <li><a href="/log-in">Login</a></li>
         </ul>
     </>
 }

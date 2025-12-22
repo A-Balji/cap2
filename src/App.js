@@ -8,15 +8,7 @@ import Footer from './Footer.js'
 function App() {
   return (
     <>
-      <div className='headerPlusNav'>
-        <Header></Header>
-        <Nav></Nav>
-      </div>
       <Main></Main>
-      <div className='allFooter'>
-      <Footer></Footer>
-      </div>
-
     </>
   );
 }

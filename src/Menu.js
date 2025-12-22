@@ -5,10 +5,10 @@ let Menu = function(props){
         borderStyle: 'solid',
         borderTopLeftRadius: '10px',
         borderTopRightRadius: '10px',
-        width: '17rem',
+        width: '15.5rem',
         height: '31rem',
         backgroundColor: '#C2BFBF',
-        margin: '0.85rem',
+        margin: '0.45rem',
         verticalAlign: 'middle',
         textAlign: 'left',
     }
@@ -17,7 +17,7 @@ let Menu = function(props){
         <div style={style}>
             <img src={props.pic} width="200px" alt={props.name}
             style={{
-                width: '17rem',
+                width: '15.5rem',
                 height: '15rem',
                 borderTopLeftRadius: '10px',
                 borderTopRightRadius: '10px',
@@ -25,8 +25,8 @@ let Menu = function(props){
             }}>
             </img>
             <div style={{
-                paddingLeft: '0.8rem',
-                paddingRight: '0.8rem',
+                paddingLeft: '0.4rem',
+                paddingRight: '0.4rem',
                 height: '12rem',
                 width: '14.5rem',
                 fontSize: '1.1rem',
@@ -42,7 +42,7 @@ let Menu = function(props){
                 style={{
                     height: '25px',
                     wigth: '25px',
-                    paddingLeft: '1.5rem',
+                    paddingLeft: '1rem',
                     verticalAlign: 'middle'
                     }}></img></p>
             </div>
