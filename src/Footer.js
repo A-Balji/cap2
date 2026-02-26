@@ -3,10 +3,10 @@ import vLogo from "./pics/vLogo.png"
 
 let Footer = function () {
     return <>
+    <div className="footerPane">
         <div className="footer">
             <img className="footCol1" src={vLogo} alt="vertical Lemon logo"
                 height="300pt" width="140pt">
-
             </img>
             <div className="footCol2">
                 <p>Doormat navigation</p>
@@ -19,7 +19,6 @@ let Footer = function () {
                     <li><a href="/login">Login</a></li>
                 </ul>
             </div>
-
             <div className="footCol3">
                 <p>Contact</p>
                 <ul>
@@ -37,6 +36,7 @@ let Footer = function () {
                 </ul>
             </div>
         </div>
+    </div>
     </>
 }
 export default Footer

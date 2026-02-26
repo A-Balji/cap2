@@ -3,7 +3,7 @@ import Nav from './Nav.js'
 import Footer from './Footer.js'
 
 
-let About = () => {
+let Booking = () => {
     return(<>
         <div className='headerPlusNav'>
             <Header></Header>
@@ -11,11 +11,11 @@ let About = () => {
         </div>
 
         <div >
-            <h1> ABOUT </h1>
+            <h1> Reserve a table </h1>
         </div>
 
         <Footer></Footer>
     </>)
 }
 
-export default About
+export default Booking

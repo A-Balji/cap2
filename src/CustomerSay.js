@@ -11,7 +11,7 @@ let Import = function(props){
     }
     let avaAlt = props.fName + "'s avatar"
     return (<>
-        <div className={props.CName} style = {styles}>
+        <div style = {styles}>
             <p>Rating &nbsp;&nbsp;{props.rating}&nbsp;&nbsp;⭐</p> 
             <img src={props.avatar} height="60px" width="60px"
             style={{
