@@ -15,8 +15,8 @@ let BookingPage = (props) => {
     let [slot, setSlot] = useState(props.formData.slots[0])
     let [warningMessages, setWarningMessages] = useState({
         chooseTime: '*',
-        chooseSlot: '*',
         chooseOccasion: '*',
+        mainMessage: 'Please fill all lines',
     })
     /*  let today = new Date().toISOString().slice(0, 10); */
     let availableTimes = props.availableTimes
@@ -25,32 +25,24 @@ let BookingPage = (props) => {
     useEffect(() => {
         formCorrectCheck(props.formData)
         console.log(props.formData, ' - new formData')
+        if(props.formData.message === 'False return from API'){
+            let nWM = {...warningMessages}
+            nWM.mainMessage = 'Server error'
+            setWarningMessages(nWM)
+        } 
     }, [props.formData])
 
     let formCorrectCheck = (form) => {
         if (form.correct === false) {
             console.log('form useEffect triggered')
             // analyze if all fields are filled
-            if (form.time && form.slot && form.occasion) {
+            if (form.time && form.occasion) {
                 let nForm = { ...form }
                 nForm.correct = true
                 props.setFormData(nForm)
-            }
-            // when each 1 field was filled
-            if (form.time) {
-                let nMessages = { ...warningMessages }
-                nMessages.chooseTime = ''
-                setWarningMessages(nMessages)
-            }
-            if (form.slot) {
-                let nMessages = { ...warningMessages }
-                nMessages.chooseSlot = ''
-                setWarningMessages(nMessages)
-            }
-            if (form.occasion) {
-                let nMessages = { ...warningMessages }
-                nMessages.chooseOccasion = ''
-                setWarningMessages(nMessages)
+                let nWM = {...warningMessages}
+                nWM.mainMessage = ''
+                setWarningMessages(nWM)
             }
         }
     }
@@ -68,6 +60,9 @@ let BookingPage = (props) => {
         let newData = { ...props.formData }
         newData.time = e.target.value
         props.setFormData(newData)
+        let nMessages = { ...warningMessages }
+        nMessages.chooseTime = ''
+        setWarningMessages(nMessages)
     }
     let slotChange = (e) => {
         let newData = { ...props.formData }
@@ -79,6 +74,9 @@ let BookingPage = (props) => {
         let newData = { ...props.formData }
         newData.occasion = e.target.value
         props.setFormData(newData)
+        let nMessages = { ...warningMessages }
+        nMessages.chooseOccasion = ''
+        setWarningMessages(nMessages)
     }
     let guestNumChange = (e) => {
         let newData = { ...props.formData }
@@ -122,7 +120,9 @@ let BookingPage = (props) => {
                             value={date}
                         />
                         {/* Time input */}
-                        <label htmlFor="res-time">Choose time {warningMessages.time}</label>
+                        <label htmlFor="res-time">
+                            Choose time <b id='red'>{warningMessages.chooseTime}</b>
+                            </label>
                         <select id="res-time"
                             onChange={timeChange}
                             value={props.formData.time}>
@@ -132,7 +132,9 @@ let BookingPage = (props) => {
                             })}
                         </select>
                         {/* Slot input */}
-                        <label htmlFor='slots'>Choose available slot</label>
+                        <label htmlFor='slots'>
+                            Pick available slot
+                        </label>
                         <select id='slots'
                             onChange={slotChange}
                             value={slot}>
@@ -145,7 +147,9 @@ let BookingPage = (props) => {
                         <input id="num-guests" type="number" min="1" max="10"
                             placeholder="1" value={props.formData.guestNum} onChange={guestNumChange} />
                         {/* Occasion selection */}
-                        <label htmlFor="occasion">Occasion</label>
+                        <label htmlFor="occasion">
+                            Occasion <b id='red'>{warningMessages.chooseOccasion}</b>
+                            </label>
                         <select id="occasion"
                             value={props.formData.occasion}
                             onChange={occasionChange}>
@@ -154,8 +158,9 @@ let BookingPage = (props) => {
                             <option>Anniversary</option>
                         </select>
                         {/* Submit button */}
-                        <p style={{ maxWidth: '150px' }}>{props.formMessage}</p>
-                        <input type="submit" value="Make Your Reservation"></input>
+                        <b>{warningMessages.mainMessage}</b>
+                        <input type="submit" value="Make Your Reservation"
+                        disabled={!props.formData.correct}></input>
                     </form>
                 </div>
                 <div id="rules">

@@ -14,9 +14,6 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 // b) exclude already
 //  booked out times if all timeslots taken
 //
-//
-
-
 let Main = () => {
     let Navigate = useNavigate()
     let today = new Date()
@@ -24,7 +21,6 @@ let Main = () => {
     let updateTimes = (state, formData) => {
         let nTimeSlots = initializeTimes(formData.date)
         console.log(nTimeSlots, ' - fetchedTimes')
-        //
         return nTimeSlots
     }
 //
@@ -34,7 +30,6 @@ let Main = () => {
     }
 //
     let [availableTimes, dispatch] = useReducer(updateTimes, initializeTimes(today))
-    let [formMessage, setFormMessage] = useState('Please fill all lines')
     const [formData, setFormData] = useState({
         date: today,
         time: '',
@@ -49,28 +44,17 @@ let Main = () => {
 // 3) redirect to confirmation
 
     let submitForm = (form) => {
-        if(form.slot !== undefined 
-            && form.time !== undefined
-            && form.occasion !== undefined){
-        
-        let message = 'please fill'
-        recordBooking(form)
-        if (form.time.length === 0 || form.occasion.length === 0) {
-            message = 'Please set: '
-            if (form.time.length === 0) message += 'time of your visit, '
-            if (form.occasion.length === 0) message += 'occasion, '
-            message += ' and press the button.'
-            setFormMessage(message)
-            console.log(formData, ' - bad form', form.time.length, form.occasion.length)
-        } else {
-            if (submitAPI(form)) { Navigate('/confirmed')}
-            else { setFormMessage('internalError') }
+        if (submitAPI(form)){
+            recordBooking(form)
+            Navigate('/confirmed')
+        } 
+        else { 
+            let nForm = {...form}
+            nForm.message = 'False return from API'
+            setFormData(nForm)
+            console.log(' - got in here')
         }
-
-        }
-
         console.log(localStorage, ' - local storage')
-        return message
     }
 
     let recordBooking = (form) => {
@@ -88,9 +72,6 @@ let Main = () => {
                 formData={formData}
                 setFormData={setFormData}
                 submitForm={submitForm}
-                
-                formMessage={formMessage}
-                setFormMessage={setFormMessage} 
             />}></Route>
             <Route path="/confirmed" element={<ConfirmedBooking />}></Route>
             <Route path="/order" element={<Order />}></Route>

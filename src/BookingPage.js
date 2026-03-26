@@ -8,9 +8,6 @@ let BookingPage = (props) => {
             formData={props.formData}
             setFormData={props.setFormData}
             submitForm={props.submitForm}
-            
-            formMessage={props.formMessage}
-            setFormMessage={props.setFormMessage}
         ></BookingsForm>
     </>)
 }
