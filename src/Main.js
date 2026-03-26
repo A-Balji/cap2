@@ -41,9 +41,18 @@ let Main = () => {
         slots: [1, 2, 3, 4],
         guestNum: 1,
         occasion: '',
+        correct: false,
     });
-//
+// after submitting: 
+// 1) check if form data is correct
+// 2) record to localStorage
+// 3) redirect to confirmation
+
     let submitForm = (form) => {
+        if(form.slot !== undefined 
+            && form.time !== undefined
+            && form.occasion !== undefined){
+        
         let message = 'please fill'
         recordBooking(form)
         if (form.time.length === 0 || form.occasion.length === 0) {
@@ -57,11 +66,15 @@ let Main = () => {
             if (submitAPI(form)) { Navigate('/confirmed')}
             else { setFormMessage('internalError') }
         }
+
+        }
+
+        console.log(localStorage, ' - local storage')
         return message
     }
 
     let recordBooking = (form) => {
-        localStorage.setItem(`${form.date}-${form.time}-${form.slot}`, 'booked')
+        localStorage.setItem(`${form}`, 'booked')
     }
 
     return (<>

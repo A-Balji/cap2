@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const today = new Date()
 
@@ -6,16 +6,54 @@ const getTodaysDate = () => {
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
-    
+
     return `${year}-${month}-${day}`;
 };
 
 let BookingPage = (props) => {
     let [date, setDate] = useState(getTodaysDate())
     let [slot, setSlot] = useState(props.formData.slots[0])
+    let [warningMessages, setWarningMessages] = useState({
+        chooseTime: '*',
+        chooseSlot: '*',
+        chooseOccasion: '*',
+    })
     /*  let today = new Date().toISOString().slice(0, 10); */
     let availableTimes = props.availableTimes
     console.log(availableTimes, ' - availableTimes given')
+
+    useEffect(() => {
+        formCorrectCheck(props.formData)
+        console.log(props.formData, ' - new formData')
+    }, [props.formData])
+
+    let formCorrectCheck = (form) => {
+        if (form.correct === false) {
+            console.log('form useEffect triggered')
+            // analyze if all fields are filled
+            if (form.time && form.slot && form.occasion) {
+                let nForm = { ...form }
+                nForm.correct = true
+                props.setFormData(nForm)
+            }
+            // when each 1 field was filled
+            if (form.time) {
+                let nMessages = { ...warningMessages }
+                nMessages.chooseTime = ''
+                setWarningMessages(nMessages)
+            }
+            if (form.slot) {
+                let nMessages = { ...warningMessages }
+                nMessages.chooseSlot = ''
+                setWarningMessages(nMessages)
+            }
+            if (form.occasion) {
+                let nMessages = { ...warningMessages }
+                nMessages.chooseOccasion = ''
+                setWarningMessages(nMessages)
+            }
+        }
+    }
 
     let dateChange = (e) => {
         let newData = { ...props.formData }
@@ -31,13 +69,12 @@ let BookingPage = (props) => {
         newData.time = e.target.value
         props.setFormData(newData)
     }
-    let slotChange = (e) =>{
+    let slotChange = (e) => {
         let newData = { ...props.formData }
         newData.slot = e.target.value
         props.setFormData(newData)
         setSlot(e.target.value)
     }
-
     let occasionChange = (e) => {
         let newData = { ...props.formData }
         newData.occasion = e.target.value
@@ -50,9 +87,8 @@ let BookingPage = (props) => {
     }
     let handleSubmit = (e) => {
         e.preventDefault()
-        if (props.submitForm(props.formData) === 'Form is valid') {
-            console.log('handleSubmit was activated!')
-        } else { props.submitForm(props.formData) }
+        console.log('handleSubmit was clicked!')
+        if(props.formData.correct === true) props.submitForm(props.formData)
     }
 
     return (<>
@@ -86,7 +122,7 @@ let BookingPage = (props) => {
                             value={date}
                         />
                         {/* Time input */}
-                        <label htmlFor="res-time">Choose time</label>
+                        <label htmlFor="res-time">Choose time {warningMessages.time}</label>
                         <select id="res-time"
                             onChange={timeChange}
                             value={props.formData.time}>
@@ -100,8 +136,8 @@ let BookingPage = (props) => {
                         <select id='slots'
                             onChange={slotChange}
                             value={slot}>
-                            {props.formData.slots.map((item, index)=>{
-                                return(<option key={index} value={item}> Slot {item} </option>)
+                            {props.formData.slots.map((item, index) => {
+                                return (<option key={index} value={item}> Slot {item} </option>)
                             })}
                         </select>
                         {/* Guest number input */}
@@ -125,8 +161,7 @@ let BookingPage = (props) => {
                 <div id="rules">
                     <p>
                         <b>Rules and conditions:{JSON.stringify(props.formData)}</b><br />
-
-                        <br /><i>  Reservations & Table Management:&nbsp;</i>
+                        <br /><i>  {JSON.stringify(warningMessages)}Reservations & Table Management:&nbsp;</i>
                         Reservations are recommended for parties of 5+. We only seat complete parties to ensure table turnover times.
 
                         <br /><br /><i> &nbsp;&nbsp; Late Policy:&nbsp;</i>
