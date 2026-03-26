@@ -1,21 +1,6 @@
-import Header from './Header.js'
-import Nav from './Nav.js'
-import Footer from './Footer.js'
-
-
 let About = () => {
     return(<>
-        <div className='headerPlusNav'>
-            <Header></Header>
-            <Nav></Nav>
-        </div>
-
-        <div >
-            <h1> ABOUT </h1>
-        </div>
-
-        <Footer></Footer>
+        <h1> About page</h1>
     </>)
 }
-
 export default About

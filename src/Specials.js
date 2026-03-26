@@ -3,7 +3,6 @@ import items from './specilItemsData.js'
 
 
 let Specials = function () {
-    
     return (<>
         <section className="menuPart">
             <div className="menuDiv">

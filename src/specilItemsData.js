@@ -3,7 +3,6 @@ import bruschettaPic from './pics/bruschetta.png'
 import lemonPic from './pics/lemonD.jpg'
 
 let items = []
-
 items.push({
     name:'Greek salad',
     price:'$ 12.99',

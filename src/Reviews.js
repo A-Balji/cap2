@@ -3,7 +3,6 @@ import reviews from './reviewsData.js'
 
 
 let Reviews = function () {
-
   let reviewsCSS = {
     textAlign: 'center',
     maxWidth: '50rem',
@@ -17,7 +16,6 @@ let Reviews = function () {
     color: '#F4CE14',
     marginBottom: '7rem',
   }
-
     return (<>
         <div style={{backgroundColor: '#495E57'}}>
             <section className="reviews" style={reviewsCSS}>
@@ -33,9 +31,7 @@ let Reviews = function () {
                 }
             </section>
         </div>
-    </>
-
-    )
+    </>)
 }
 
 export default Reviews

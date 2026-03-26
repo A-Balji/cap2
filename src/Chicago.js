@@ -1,23 +1,15 @@
-import { useRef } from 'react'
 import chef1 from './pics/chef1.jpg'
 import chef2 from './pics/chef2.jpg'
 
-
 let About = (props) => {
-
-
     return (<>
         <div className='aboutPane'
-            style={{
-                backgroundColor: "#FBDABB",
-            }}>
-
+            style={{ backgroundColor: "#FBDABB" }}>
             <section className="about-us" style={{
                 textAlign: 'center',
                 marginRight: 'auto',
                 marginLeft: 'auto',
                 maxWidth: '50rem',
-
             }}>
                 <article style={{
                     display: 'inline-block',
