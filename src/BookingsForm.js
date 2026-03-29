@@ -19,8 +19,7 @@ let BookingPage = (props) => {
         mainMessage: 'Please fill all lines',
     })
     /*  let today = new Date().toISOString().slice(0, 10); */
-    let availableTimes = props.availableTimes
-    console.log(availableTimes, ' - availableTimes given')
+    console.log(props.availableTimes, ' - availableTimes given')
 
     useEffect(() => {
         formCorrectCheck(props.formData)
@@ -127,7 +126,7 @@ let BookingPage = (props) => {
                             onChange={timeChange}
                             value={props.formData.time}>
                             <option disabled value=''>Time of arrival</option>
-                            {availableTimes.map((item, index) => {
+                            {props.availableTimes.map((item, index) => {
                                 return (<option key={index}>{item}</option>)
                             })}
                         </select>
@@ -136,8 +135,9 @@ let BookingPage = (props) => {
                             Pick available slot
                         </label>
                         <select id='slots'
-                            onChange={slotChange}
-                            value={slot}>
+                            value={slot}
+                            onChange={slotChange}>
+                                <option disabled value="">Choose</option>
                             {props.formData.slots.map((item, index) => {
                                 return (<option key={index} value={item}> Slot {item} </option>)
                             })}

@@ -19,16 +19,20 @@ let Main = () => {
     let today = new Date()
     
     let updateTimes = (state, formData) => {
+        // 1. fetch times based on picked date
+        // 2. Block slots that were booked out (in localStorage)
         let nTimeSlots = initializeTimes(formData.date)
         console.log(nTimeSlots, ' - fetchedTimes')
+
+
         return nTimeSlots
     }
-//
-    let initializeTimes = (date) => {
-        console.log(date, ' - goy it?')
-    return fetchAPI(date)
+    let blockSlots = (slots) => {
+        
     }
-//
+
+    let initializeTimes = (date) => fetchAPI(date)
+
     let [availableTimes, dispatch] = useReducer(updateTimes, initializeTimes(today))
     const [formData, setFormData] = useState({
         date: today,
@@ -52,13 +56,12 @@ let Main = () => {
             let nForm = {...form}
             nForm.message = 'False return from API'
             setFormData(nForm)
-            console.log(' - got in here')
         }
         console.log(localStorage, ' - local storage')
     }
 
     let recordBooking = (form) => {
-        localStorage.setItem(`${form}`, 'booked')
+        localStorage.setItem(`${form.date},${form.time},slot${form.slot},${form}`, 'booked')
     }
 
     return (<>
