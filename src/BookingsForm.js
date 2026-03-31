@@ -2,16 +2,22 @@ import { useEffect, useState } from "react";
 
 const today = new Date();
 
-const getTodaysDate = () => {
-  const year = today.getFullYear();
-  const month = (today.getMonth() + 1).toString().padStart(2, "0");
-  const day = today.getDate().toString().padStart(2, "0");
+const getDateString = (date) => {
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  console.log(
+    date,
+    date.getMonth(),
+    `${year}-${month}-${day}`,
+    " - getDateString",
+  );
 
   return `${year}-${month}-${day}`;
 };
 
 let BookingPage = (props) => {
-  let [date, setDate] = useState(getTodaysDate());
+  let [date, setDate] = useState(getDateString(today));
   let [warningMessages, setWarningMessages] = useState({
     chooseTime: "*",
     chooseOccasion: "*",
@@ -22,6 +28,7 @@ let BookingPage = (props) => {
   console.log(props.availableTimes, " - availableTimes given");
 
   useEffect(() => {
+    // check if required fields clicked:
     formCorrectCheck(props.formData);
     console.log(props.formData, " - new formData");
     if (props.formData.message === "False return from API") {
@@ -46,12 +53,18 @@ let BookingPage = (props) => {
     }
   };
 
+  let filterSlots = (form) => {
+    let allBookings = Object.keys(localStorage);
+    console.log(allBookings, " - allBookings from lStorage");
+    let slots = [1, 2, 3, 4];
+  };
+
   let dateChange = (e) => {
     let newData = { ...props.formData };
     setDate(e.target.value);
     newData.date = e.target.value;
     props.setFormData(newData);
-    props.dispatch(newData.date);
+    props.dispatch(newData);
     console.log(e.target.value, newData.date, " - dispatched");
     console.log(newData, " - new form data");
   };
@@ -62,6 +75,7 @@ let BookingPage = (props) => {
     let nMessages = { ...warningMessages };
     nMessages.chooseTime = "";
     setWarningMessages(nMessages);
+    filterSlots(props.formData);
   };
   let slotChange = (e) => {
     let newData = { ...props.formData };
@@ -117,7 +131,7 @@ let BookingPage = (props) => {
               <label htmlFor="res-date">Choose date</label>
               <input
                 type="date"
-                min={getTodaysDate()}
+                min={getDateString(today)}
                 id="res-date"
                 name={"date"}
                 onChange={dateChange}
