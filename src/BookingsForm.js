@@ -3,15 +3,9 @@ import { useEffect, useState } from "react";
 const today = new Date();
 
 const getDateString = (date) => {
-  const year = date.getUTCFullYear();
+  const year = date.getFullYear();
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
   const day = date.getUTCDate().toString().padStart(2, "0");
-  console.log(
-    date,
-    date.getMonth(),
-    `${year}-${month}-${day}`,
-    " - getDateString",
-  );
 
   return `${year}-${month}-${day}`;
 };
@@ -24,13 +18,38 @@ let BookingPage = (props) => {
     chooseSlot: "*",
     mainMessage: "Please fill all lines",
   });
-  /*  let today = new Date().toISOString().slice(0, 10); */
   console.log(props.availableTimes, " - availableTimes given");
+
+  let maxSlots = 4;
+  //  times and slots for selected date
+  let [timesSlots, setTimesSlots] = useState({});
+  // actual slot menu for selected date + time
+  let [dropDownSlots, setDropDownSlots] = useState([]);
+  // filter booked slots:
+  useEffect(() => {
+    let nTimesSlots = {};
+    for (let k = 0; k < props.availableTimes.length; k++) {
+      let filteredSlots = [];
+      for (let i = 1; i < maxSlots + 1; i++) {
+        console.log(props.formData.date, "");
+        let localStorageKey = `${getDateString(new Date(props.formData.date))},${props.availableTimes[k]},${i}`;
+        if (!localStorage[localStorageKey]) {
+          filteredSlots.push(i);
+        }
+      }
+      nTimesSlots[props.availableTimes[k]] = filteredSlots;
+      filteredSlots = [];
+    }
+    for (let key in nTimesSlots) {
+      if (nTimesSlots[key] === [])
+        props.availableTimes.filter((item) => item !== parseInt(key));
+    }
+    setTimesSlots(nTimesSlots);
+  }, [props.availableTimes]);
 
   useEffect(() => {
     // check if required fields clicked:
     formCorrectCheck(props.formData);
-    console.log(props.formData, " - new formData");
     if (props.formData.message === "False return from API") {
       let nWM = { ...warningMessages };
       nWM.mainMessage = "Server error";
@@ -53,12 +72,6 @@ let BookingPage = (props) => {
     }
   };
 
-  let filterSlots = (form) => {
-    let allBookings = Object.keys(localStorage);
-    console.log(allBookings, " - allBookings from lStorage");
-    let slots = [1, 2, 3, 4];
-  };
-
   let dateChange = (e) => {
     let newData = { ...props.formData };
     setDate(e.target.value);
@@ -75,7 +88,8 @@ let BookingPage = (props) => {
     let nMessages = { ...warningMessages };
     nMessages.chooseTime = "";
     setWarningMessages(nMessages);
-    filterSlots(props.formData);
+    setDropDownSlots(timesSlots[newData.time]);
+    console.log(newData.time, " - new time data");
   };
   let slotChange = (e) => {
     let newData = { ...props.formData };
@@ -141,31 +155,27 @@ let BookingPage = (props) => {
               <label htmlFor="res-time">
                 Choose time <b id="red">{warningMessages.chooseTime}</b>
               </label>
-              <select
-                id="res-time"
-                onChange={timeChange}
-                value={props.formData.time}
-              >
-                <option disabled value="">
+              <select id="res-time" onChange={timeChange}>
+                <option value="" selected disabled>
                   Time of arrival
                 </option>
                 {props.availableTimes.map((item, index) => {
-                  return <option key={index}>{item}</option>;
+                  return (
+                    <option key={index} value={props.availableTimes[index]}>
+                      {item}
+                    </option>
+                  );
                 })}
               </select>
               {/* Slot input */}
               <label htmlFor="slots">
                 Pick available slot <b id="red">{warningMessages.chooseSlot}</b>
               </label>
-              <select
-                id="slots"
-                value={props.formData.slot}
-                onChange={slotChange}
-              >
-                <option disabled selected value="0">
-                  Choose
+              <select id="slots" onChange={slotChange}>
+                <option selected disabled value="">
+                  Choose time first
                 </option>
-                {props.formData.slots.map((item, index) => {
+                {dropDownSlots.map((item, index) => {
                   return (
                     <option key={index} value={item}>
                       {" "}
@@ -216,7 +226,7 @@ let BookingPage = (props) => {
               <br />
               <i>
                 {" "}
-                {JSON.stringify(warningMessages)}Reservations & Table
+                {JSON.stringify(timesSlots)}Reservations & Table
                 Management:&nbsp;
               </i>
               Reservations are recommended for parties of 5+. We only seat

@@ -8,19 +8,11 @@ import Login from "./Login.js";
 import { useReducer, useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
-// initialize
-// 1 updateTimes - reducer should process data to:
-// a) record booking in a storage
-// b) exclude already
-//  booked out times if all timeslots taken
-//
-
 const getDateString = (date1) => {
   let date = new Date(date1);
-  const year = date.getUTCFullYear();
+  const year = date.getFullYear();
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
   const day = date.getUTCDate().toString().padStart(2, "0");
-  console.log(date1, day, " - formdate sent to gds()");
 
   return `${year}-${month}-${day}`;
 };
@@ -46,13 +38,13 @@ let Main = () => {
   );
   const [formData, setFormData] = useState({
     date: today,
-    time: "",
-    slots: [1, 2, 3, 4],
+    time: availableTimes[0],
     guestNum: 1,
     occasion: "",
     slot: "",
     correct: false,
   });
+
   // after submitting:
   // 1) check if form data is correct
   // 2) record to localStorage
@@ -65,7 +57,6 @@ let Main = () => {
       setFormData({
         date: today,
         time: "",
-        slots: [1, 2, 3, 4],
         guestNum: 1,
         occasion: "",
         slot: "",
@@ -79,12 +70,10 @@ let Main = () => {
   };
 
   let recordBooking = (form) => {
-    let dateString = getDateString(form.date);
-    console.log(dateString, " - dateString");
-    localStorage.setItem(`${dateString},${form.time}`, {
-      slot: form.slot,
-      occasion: form.occasion,
-    });
+    localStorage.setItem(
+      `${getDateString(form.date)},${form.time},${form.slot}`,
+      `${form.occasion}`,
+    );
   };
 
   return (
