@@ -66,7 +66,7 @@ let BookingPage = (props) => {
         nForm.correct = true;
         props.setFormData(nForm);
         let nWM = { ...warningMessages };
-        nWM.mainMessage = "";
+        nWM.mainMessage = "Ready to go!";
         setWarningMessages(nWM);
       }
     }
@@ -160,11 +160,17 @@ let BookingPage = (props) => {
                   Time of arrival
                 </option>
                 {props.availableTimes.map((item, index) => {
-                  return (
-                    <option key={index} value={props.availableTimes[index]}>
-                      {item}
-                    </option>
-                  );
+                  // lets block times that have no slots available:
+                  if (timesSlots[item]) {
+                    if (timesSlots[item].length === 0) {
+                    } else {
+                      return (
+                        <option key={index} value={props.availableTimes[index]}>
+                          {item}
+                        </option>
+                      );
+                    }
+                  }
                 })}
               </select>
               {/* Slot input */}
