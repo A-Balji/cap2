@@ -8,6 +8,36 @@ import Login from "./Login.js";
 import { useReducer, useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
+let today = new Date();
+
+///////////////    IMPORTED:   ///////////////
+const seededRandom = function (seed) {
+  var m = 2 ** 35 - 31;
+  var a = 185852;
+  var s = seed % m;
+  return function () {
+    return (s = (s * a) % m) / m;
+  };
+};
+
+const fetchAPI = function (date) {
+  let result = [];
+  let random = seededRandom(date.getDate());
+
+  for (let i = 17; i <= 23; i++) {
+    if (random() < 0.5) {
+      result.push(i + ":00");
+    }
+    if (random() < 0.5) {
+      result.push(i + ":30");
+    }
+  }
+  return result;
+};
+const submitAPI = function (formData) {
+  return true;
+};
+
 const getDateString = (date1) => {
   let date = new Date(date1);
   const year = date.getFullYear();
@@ -16,21 +46,25 @@ const getDateString = (date1) => {
 
   return `${year}-${month}-${day}`;
 };
+//////////   END OF IMPORTED   ////////////
+
+let initializeTimes = (date) => {
+  // console.log(JSON.stringify(fetchAPI), " - fetchAPI");
+  return fetchAPI(date);
+};
+let updateTimes = (state, formData) => {
+  if (new Date(formData.date) < today) {
+    return ["error: past date"];
+  } else {
+    // fetch times based on picked date
+    let nTimeSlots = initializeTimes(new Date(formData.date));
+    console.log(nTimeSlots, " - fetchedTimes");
+    return nTimeSlots;
+  }
+};
 
 let Main = () => {
   let Navigate = useNavigate();
-  let today = new Date();
-
-  let updateTimes = (state, formData) => {
-    // 1. fetch times based on picked date
-    // 2. Block slots that were booked out (in localStorage)
-    let nTimeSlots = initializeTimes(new Date(formData.date));
-    console.log(nTimeSlots, " - fetchedTimes");
-
-    return nTimeSlots;
-  };
-
-  let initializeTimes = (date) => fetchAPI(date);
 
   let [availableTimes, dispatch] = useReducer(
     updateTimes,
@@ -49,10 +83,12 @@ let Main = () => {
   // 1) check if form data is correct
   // 2) record to localStorage
   // 3) redirect to confirmation
-
   let submitForm = (form) => {
     if (submitAPI(form)) {
-      recordBooking(form);
+      localStorage.setItem(
+        `${getDateString(form.date)},${form.time},${form.slot}`,
+        `${form.occasion}`,
+      );
       Navigate("/confirmed");
       setFormData({
         date: today,
@@ -67,13 +103,6 @@ let Main = () => {
       nForm.message = "False return from API";
       setFormData(nForm);
     }
-  };
-
-  let recordBooking = (form) => {
-    localStorage.setItem(
-      `${getDateString(form.date)},${form.time},${form.slot}`,
-      `${form.occasion}`,
-    );
   };
 
   return (
@@ -102,4 +131,5 @@ let Main = () => {
   );
 };
 
+export { initializeTimes, updateTimes };
 export default Main;

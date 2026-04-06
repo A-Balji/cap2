@@ -23,15 +23,14 @@ let BookingPage = (props) => {
   let maxSlots = 4;
   //  times and slots for selected date
   let [timesSlots, setTimesSlots] = useState({});
-  // actual slot menu for selected date + time
+  // actual slot menu for selected date + selected time
   let [dropDownSlots, setDropDownSlots] = useState([]);
-  // filter booked slots:
+  // filter booked out slots:
   useEffect(() => {
     let nTimesSlots = {};
     for (let k = 0; k < props.availableTimes.length; k++) {
       let filteredSlots = [];
       for (let i = 1; i < maxSlots + 1; i++) {
-        console.log(props.formData.date, "");
         let localStorageKey = `${getDateString(new Date(props.formData.date))},${props.availableTimes[k]},${i}`;
         if (!localStorage[localStorageKey]) {
           filteredSlots.push(i);
@@ -45,10 +44,10 @@ let BookingPage = (props) => {
         props.availableTimes.filter((item) => item !== parseInt(key));
     }
     setTimesSlots(nTimesSlots);
+    setDropDownSlots(nTimesSlots[props.formData.time]);
   }, [props.availableTimes]);
-
+  // check if required fields clicked:
   useEffect(() => {
-    // check if required fields clicked:
     formCorrectCheck(props.formData);
     if (props.formData.message === "False return from API") {
       let nWM = { ...warningMessages };
@@ -72,12 +71,14 @@ let BookingPage = (props) => {
     }
   };
 
+  // form event handlers:
   let dateChange = (e) => {
     let newData = { ...props.formData };
     setDate(e.target.value);
     newData.date = e.target.value;
     props.setFormData(newData);
     props.dispatch(newData);
+
     console.log(e.target.value, newData.date, " - dispatched");
     console.log(newData, " - new form data");
   };
@@ -179,7 +180,7 @@ let BookingPage = (props) => {
               </label>
               <select id="slots" onChange={slotChange}>
                 <option selected disabled value="">
-                  Choose time first
+                  Booking slot
                 </option>
                 {dropDownSlots.map((item, index) => {
                   return (
