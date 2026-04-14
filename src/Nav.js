@@ -3,22 +3,34 @@ let Nav = function () {
     <>
       <ul className="allNav">
         <li>
-          <a href="/">Home</a>
+          <a href="/" tabIndex="1">
+            Home
+          </a>
         </li>
         <li>
-          <a href="/about">About</a>
+          <a href="/about" tabIndex="2">
+            About
+          </a>
         </li>
         <li>
-          <a href="/menu">Menu</a>
+          <a href="/menu" tabIndex="3">
+            Menu
+          </a>
         </li>
         <li>
-          <a href="/booking">Reservations</a>
+          <a href="/booking" tabIndex="4">
+            Reservations
+          </a>
         </li>
         <li>
-          <a href="/order">Order online</a>
+          <a href="/order" tabIndex="5">
+            Order online
+          </a>
         </li>
         <li>
-          <a href="/login">Login</a>
+          <a href="/login" tabIndex="6">
+            Login
+          </a>
         </li>
       </ul>
     </>

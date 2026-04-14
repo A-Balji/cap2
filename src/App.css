@@ -1,138 +1,134 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
+#root {
+    background-color: #edefee;
+}
 
-  #root {
-    background-color: #EDEFEE;
-  }
-
-  a{
+a {
     text-decoration: none;
     color: inherit;
     cursor: auto;
-  }
+}
 
-
-
-  .headerPlusNav{
+.headerPlusNav {
     display: block;
     background-color: rgb(237, 239, 238);
     font-weight: 700;
-    padding-top:1.1rem;
+    padding-top: 1.1rem;
     padding-bottom: 1.1rem;
     max-width: 50rem;
     margin-right: auto;
     margin-left: auto;
-  }
-  .allHeader{
+}
+.allHeader {
     display: inline-block;
-    background-color:rgb(237, 239, 238);
+    background-color: rgb(237, 239, 238);
     vertical-align: middle;
-  }
-  .headerImg{
+}
+.headerImg {
     border-style: solid;
     border-color: gray;
-    align-content: left;    
+    align-content: left;
     vertical-align: middle;
-  }
-  .allNav{
+}
+.allNav {
     display: inline-block;
     padding-left: 0;
     margin-left: 9pt;
-  }
-  .allnav > ul{
+}
+.allnav > ul {
     font-family: "Karla";
-    background-color:rgb(237, 239, 238);
-  }
-  .allNav>li {
+    background-color: rgb(237, 239, 238);
+}
+.allNav > li {
     font-size: 1.1rem;
     padding: 0.75rem;
     display: inline-block;
-  }
+}
 
-
-  .introPane{
-    background-color: #495E57;
+.introPane {
+    background-color: #495e57;
     padding: 1%;
-  }
-  .intro{
+}
+.intro {
     max-width: 50rem;
     margin-left: auto;
     margin-right: auto;
-  }
-  .intro > article {
+}
+.intro > article {
     display: inline-block;
     width: 50%;
     text-align: left;
     vertical-align: top;
     padding-bottom: 3rem;
-  }
-  .intro > article > h1 {
-    color: #F4CE14;
+}
+.intro > article > h1 {
+    color: #f4ce14;
     text-align: left;
     margin-top: 3rem;
     margin-bottom: 2rem;
-  }
-  .intro > article > p {
+}
+.intro > article > p {
     max-width: 20rem;
-    color: #EDEFEE;
+    color: #edefee;
     margin-top: 1rem;
     margin-bottom: 3rem;
-  }
-  .intro > article > h4{
-    color: #EDEFEE;
-  }
-  .intro > img {
+}
+.intro > article > h4 {
+    color: #edefee;
+}
+.intro > img {
     display: inline-block;
     width: 49%;
     max-height: 25rem;
     border-radius: 20px;
     border-style: solid;
-    margin-top: 3rem;;
+    margin-top: 3rem;
     margin-bottom: -6rem;
-  }
-  .intro > h1 {
+}
+.intro > h1 {
     text-align: center;
-    color: #F4CE14;
+    color: #f4ce14;
     margin-bottom: 7rem;
-  }
+}
 
-  .YellowBtn{
-    background-color: #F4CE14;
+.YellowBtn {
+    background-color: #f4ce14;
     color: black;
     padding: 15px 30px 15px 30px;
     border-radius: 15px;
@@ -140,149 +136,145 @@
     display: inline-block;
     border-style: hidden;
     font-weight: 700;
-  }
-
-
+}
 
 .menuPart {
-  background-color: #EDEFEE;
-  padding-left: 1%;
-  padding-right: 1%;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-  margin-left: auto;
-  margin-right: auto;
-  width: auto;
-  text-align: center;
+    background-color: #edefee;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    text-align: center;
 }
 .menuPart > .menuDiv {
-  max-width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
+    max-width: 50rem;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
 }
 .menuPart > .menuDiv > h2 {
-  display: inline-block;
-  margin-bottom: 2rem;
-  font-weight: 500;
-  font-size: 1.9rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    font-size: 1.9rem;
 }
-.menuPart > div > button {
-  vertical-align: middle;
-  float: right;
+.menuPart button {
+    vertical-align: middle;
+    float: right;
 }
-.menuBox{
-  max-width: 50rem;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+.menuBox {
+    max-width: 50rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.reviewPane{
-  background-color: #495E57;
+.reviewPane {
+    background-color: #495e57;
 }
-  .reviews{
+.reviews {
     text-align: center;
     max-width: 50rem;
     margin-left: auto;
     margin-right: auto;
     padding-top: 6rem;
     padding-bottom: 10rem;
-  }
+}
 
-  .bookingPane{
-    background-color: #495E57;
-    min-height: 34rem;
-  }
-  .booking{
+.bookingPane {
+    background-color: #495e57;
+    min-height: 40rem;
+}
+.booking {
     color: rgb(237, 239, 238);
     max-width: 50rem;
     margin-left: auto;
     margin-right: auto;
     padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-  .booking>h1{
-    color: #F4CE14;
+    padding-bottom: 0rem;
+}
+.booking > h1 {
+    color: #f4ce14;
     text-align: center;
-  }
-  .booking > #form {
+}
+.booking > #form {
     display: block;
     float: left;
     margin-bottom: 1rem;
-  }
-  form > label {
+}
+form > label {
     text-align: left;
-  }
-  .booking > #rules {
+}
+.booking > #rules {
     display: block;
     float: right;
     max-width: 35rem;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-  }
-  .booking > #form > form > p {
+}
+.booking > #form > form > p {
     color: rgb(253, 22, 22);
     margin: 0px;
-  }
-  .booking > #form > form > [type="submit"]{
-    background-color:#F4CE14;
+}
+.booking > #form > form > [type="submit"] {
+    background-color: #f4ce14;
     padding: 0.5rem;
     border-radius: 0.7rem;
     font-weight: 500;
-  }
+}
 
-  .footerPane{
+.footerPane {
     background-color: rgb(73, 94, 87);
     place-items: center;
     height: 20rem;
     height: 340px;
-  }
-  .footer {
+}
+.footer {
     margin-left: auto;
     margin-right: auto;
     min-height: 18rem;
     max-height: 18rem;
     display: grid;
-    grid-template-columns: 
-    minmax(8rem, 12rem)
-    minmax(8rem, 14rem)
-    minmax(8rem, 14rem)
-    minmax(6rem, 9rem);
+    grid-template-columns:
+        minmax(8rem, 12rem)
+        minmax(8rem, 14rem)
+        minmax(8rem, 14rem)
+        minmax(6rem, 9rem);
     grid-template-rows: repeat(2, 9rem);
     padding-top: 1.5rem;
     gap: 0.3rem;
-  }
-  .footer>div>p{
-    color: rgb(244, 200, 20)
-  }
-  .footer>div>ul {
+}
+.footer > div > p {
+    color: rgb(244, 200, 20);
+}
+.footer > div > ul {
     padding: 0;
     margin: 0;
     list-style-type: none;
-    color:   rgb(237, 239, 238)
-  }
-  .footCol1 {
+    color: rgb(237, 239, 238);
+}
+.footCol1 {
     grid-row: 1/3;
     grid-column: 1/2;
     max-width: 100%;
-  }
-  .footCol2 {
+}
+.footCol2 {
     grid-row: 1/3;
     grid-column: 2/3;
-  }
+}
 
-  .footCol3 {
+.footCol3 {
     grid-row: 1/3;
     grid-column: 3/4;
-
-  }
-  .footCol4 {
+}
+.footCol4 {
     grid-row: 1/3;
     grid-column: 4/5;
+}
 
-  }
-
-  #red{
+#red {
     color: red;
-  }
+}

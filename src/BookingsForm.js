@@ -124,7 +124,7 @@ let BookingPage = (props) => {
       <div className="bookingPane">
         <div className="booking">
           <h1> Reserve a table </h1>
-          <div id="form">
+          <section id="form">
             <form
               onSubmit={handleSubmit}
               style={{
@@ -225,41 +225,50 @@ let BookingPage = (props) => {
                 disabled={!props.formData.correct}
               ></input>
             </form>
-          </div>
-          <div id="rules">
+          </section>
+          <section id="rules">
             <p>
-              <b>Rules and conditions:{JSON.stringify(props.formData)}</b>
+              <b>Rules and conditions:</b>
               <br />
               <br />
-              <i>
-                {" "}
-                {JSON.stringify(timesSlots)}Reservations & Table
-                Management:&nbsp;
-              </i>
+              <i> &nbsp;&nbsp; Reservations and Table Management: &nbsp;</i>
+              <br />
               Reservations are recommended for parties of 5+. We only seat
               complete parties to ensure table turnover times.
               <br />
               <br />
               <i> &nbsp;&nbsp; Late Policy:&nbsp;</i>
+              <br />
               Tables are held for a maximum of 15–20 minutes after the scheduled
               reservation time before being released. Please contact the
               restaurant immediately if you are running late.
               <br />
               <br />
               <i> &nbsp;&nbsp; Cancellation Policy:&nbsp;</i>
-              Cancellations must be made at least 24–48 hours in advance.
+              <br />
+              Cancellations must be made at least 24 hours in advance. Failure
+              to cancel within the time frame (or no-shows) may incur a fee,
+              especially for large parties or special events.
               <br />
               <br />
               <i> &nbsp;&nbsp; No-Show/Late Cancellation Fee:&nbsp;</i>
+              <br />
               A fee ($25+ per person) may apply to "no-show" reservations or
               cancellations within the prohibited window.
               <br />
               <br />
               <i> &nbsp;&nbsp; Dietary & Accessibility:&nbsp;</i>
+              <br />
               Special requests, dietary restrictions, or highchair requests must
               be indicated at the time of booking.
+              <br />
+              <br />
+              <i> &nbsp;&nbsp; Dining Duration:&nbsp;</i>
+              <br />
+              Dining Duration Tables are assigned a 1.5 to 2-hour dining limit
+              based on party size.
             </p>
-          </div>
+          </section>
         </div>
       </div>
     </>

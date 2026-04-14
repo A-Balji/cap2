@@ -8,9 +8,9 @@ import Login from "./Login.js";
 import { useReducer, useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
-let today = new Date();
-
-///////////////    IMPORTED:   ///////////////
+// imported due to github server issue:
+//   "X-Content-Type-Options: nosniff" was given and its Content-Type is not a script MIME type."
+// script src='URL' isn't working in index.html as it should be
 const seededRandom = function (seed) {
   var m = 2 ** 35 - 31;
   var a = 185852;
@@ -38,6 +38,8 @@ const submitAPI = function (formData) {
   return true;
 };
 
+let today = new Date();
+
 const getDateString = (date1) => {
   let date = new Date(date1);
   const year = date.getFullYear();
@@ -46,7 +48,6 @@ const getDateString = (date1) => {
 
   return `${year}-${month}-${day}`;
 };
-//////////   END OF IMPORTED   ////////////
 
 let initializeTimes = (date) => {
   // console.log(JSON.stringify(fetchAPI), " - fetchAPI");
@@ -54,7 +55,7 @@ let initializeTimes = (date) => {
 };
 let updateTimes = (state, formData) => {
   if (new Date(formData.date) < today) {
-    return ["error: past date"];
+    throw new Error("error: past date");
   } else {
     // fetch times based on picked date
     let nTimeSlots = initializeTimes(new Date(formData.date));
