@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-const today = new Date();
-
+let today = new Date();
 const getDateString = (date) => {
   const year = date.getFullYear();
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
@@ -11,20 +10,18 @@ const getDateString = (date) => {
 };
 
 let BookingPage = (props) => {
-  let [date, setDate] = useState(getDateString(today));
   let [warningMessages, setWarningMessages] = useState({
     chooseTime: "*",
     chooseOccasion: "*",
     chooseSlot: "*",
     mainMessage: "Please fill all lines",
   });
-  console.log(props.availableTimes, " - availableTimes given");
-
+  // maximum slots at each time
   let maxSlots = 4;
-  //  times and slots for selected date
+  //  raw timeslots for selected date. for example: '17:00': [1, 2, 3, 4]
   let [timesSlots, setTimesSlots] = useState({});
-  // actual slot menu for selected date + selected time
-  let [dropDownSlots, setDropDownSlots] = useState([]);
+  // actual slot menu after checking localStorage  for example: '17:00': [2, 4]
+  let [filteredSlots, setFilteredSlots] = useState([]);
   // filter booked out slots:
   useEffect(() => {
     let nTimesSlots = {};
@@ -44,8 +41,11 @@ let BookingPage = (props) => {
         props.availableTimes.filter((item) => item !== parseInt(key));
     }
     setTimesSlots(nTimesSlots);
-    setDropDownSlots(nTimesSlots[props.formData.time]);
+    if (warningMessages.chooseTime !== "*") {
+      setFilteredSlots(nTimesSlots[props.formData.time]);
+    }
   }, [props.availableTimes]);
+
   // check if required fields clicked:
   useEffect(() => {
     formCorrectCheck(props.formData);
@@ -55,11 +55,10 @@ let BookingPage = (props) => {
       setWarningMessages(nWM);
     }
   }, [props.formData]);
-
+  // helper for useEffect to check 3 form lines
   let formCorrectCheck = (form) => {
     if (form.correct === false) {
       console.log("form useEffect triggered");
-      // analyze if all fields are filled
       if (form.time && form.occasion && form.slot) {
         let nForm = { ...form };
         nForm.correct = true;
@@ -73,25 +72,58 @@ let BookingPage = (props) => {
 
   // form event handlers:
   let dateChange = (e) => {
-    let newData = { ...props.formData };
-    setDate(e.target.value);
-    newData.date = e.target.value;
-    props.setFormData(newData);
-    props.dispatch(newData);
-
-    console.log(e.target.value, newData.date, " - dispatched");
-    console.log(newData, " - new form data");
+    let nFormData = props.formData;
+    nFormData.time = "";
+    nFormData.slot = "";
+    nFormData.occasion = "";
+    let pickedDate = new Date(e.target.value);
+    // correct for +1 (TZ 1 day shift), analyse if not past day
+    pickedDate.setDate(pickedDate.getDate() + 1);
+    if (
+      pickedDate.getTime() > today.getTime() ||
+      (pickedDate.getFullYear() === today.getFullYear() &&
+        pickedDate.getMonth() === today.getMonth() &&
+        pickedDate.getDay() === today.getDay())
+    ) {
+      nFormData.date = e.target.value;
+      let nWM = {
+        chooseTime: "*",
+        chooseOccasion: "*",
+        chooseSlot: "*",
+        mainMessage: "Please fill all lines",
+      };
+      setWarningMessages(nWM);
+      props.dispatch(nFormData);
+      props.setFormData(nFormData);
+      setFilteredSlots([]);
+      console.log(e.target.value, nFormData.date, " - dispatched");
+    } else {
+      // if past date somehow was picked
+      let nWM = { ...warningMessages };
+      nWM.mainMessage = "Wrong date";
+      setWarningMessages(nWM);
+      setFilteredSlots([]);
+      console.log("got wrong here");
+    }
   };
+
+  // time change handler
   let timeChange = (e) => {
-    let newData = { ...props.formData };
-    newData.time = e.target.value;
-    props.setFormData(newData);
+    let nFData = { ...props.formData };
+    nFData.time = e.target.value;
+    nFData.slot = "";
+    nFData.occasion = "";
+    nFData.correct = false;
+    props.setFormData(nFData);
     let nMessages = { ...warningMessages };
     nMessages.chooseTime = "";
+    nMessages.chooseSlot = "*";
+    nMessages.chooseOccasion = "*";
     setWarningMessages(nMessages);
-    setDropDownSlots(timesSlots[newData.time]);
-    console.log(newData.time, " - new time data");
+    setFilteredSlots(timesSlots[nFData.time]);
+    console.log(nFData.time, " - new time data");
   };
+
   let slotChange = (e) => {
     let newData = { ...props.formData };
     newData.slot = e.target.value;
@@ -150,13 +182,18 @@ let BookingPage = (props) => {
                 id="res-date"
                 name={"date"}
                 onChange={dateChange}
-                value={date}
+                value={props.formData.date}
               />
+
               {/* Time input */}
               <label htmlFor="res-time">
                 Choose time <b id="red">{warningMessages.chooseTime}</b>
               </label>
-              <select id="res-time" onChange={timeChange}>
+              <select
+                id="res-time"
+                onChange={timeChange}
+                value={props.formData.time}
+              >
                 <option value="" selected disabled>
                   Time of arrival
                 </option>
@@ -174,15 +211,21 @@ let BookingPage = (props) => {
                   }
                 })}
               </select>
+
               {/* Slot input */}
               <label htmlFor="slots">
                 Pick available slot <b id="red">{warningMessages.chooseSlot}</b>
               </label>
-              <select id="slots" onChange={slotChange}>
+              <select
+                id="slots"
+                onChange={slotChange}
+                value={props.formData.slot}
+              >
                 <option selected disabled value="">
                   Booking slot
                 </option>
-                {dropDownSlots.map((item, index) => {
+                if(warningMessages.chooseTime !== '*')
+                {filteredSlots.map((item, index) => {
                   return (
                     <option key={index} value={item}>
                       {" "}
@@ -191,6 +234,7 @@ let BookingPage = (props) => {
                   );
                 })}
               </select>
+
               {/* Guest number input */}
               <label htmlFor="num-guests">Number of guests</label>
               <input
@@ -199,24 +243,25 @@ let BookingPage = (props) => {
                 min="1"
                 max="10"
                 placeholder="1"
-                value={props.formData.guestNum}
                 onChange={guestNumChange}
               />
+
               {/* Occasion selection */}
               <label htmlFor="occasion">
                 Occasion <b id="red">{warningMessages.chooseOccasion}</b>
               </label>
               <select
                 id="occasion"
-                value={props.formData.occasion}
                 onChange={occasionChange}
+                value={props.formData.occasion}
               >
-                <option disabled value="">
+                <option selected disabled value="">
                   Choose
                 </option>
                 <option>Birthday</option>
                 <option>Anniversary</option>
               </select>
+
               {/* Submit button */}
               <b>{warningMessages.mainMessage}</b>
               <input
@@ -228,10 +273,17 @@ let BookingPage = (props) => {
           </section>
           <section id="rules">
             <p>
-              <b>Rules and conditions:</b>
+              <b>
+                {JSON.stringify(props.formData)}Rules and conditions:
+                {filteredSlots}
+              </b>
               <br />
               <br />
-              <i> &nbsp;&nbsp; Reservations and Table Management: &nbsp;</i>
+              <i>
+                {" "}
+                {JSON.stringify(timesSlots)} - timeSlots&nbsp;&nbsp;
+                Reservations and Table Management: &nbsp;
+              </i>
               <br />
               Reservations are recommended for parties of 5+. We only seat
               complete parties to ensure table turnover times.

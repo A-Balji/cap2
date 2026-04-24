@@ -12,6 +12,8 @@ test("app main page", () => {
 /*   TEST NO 1:   Testing to find a static text  */
 test("Renders the BookingForm heading.", () => {
   let mockAvTimes = ["12:00", "21:00"];
+  let today = new Date();
+
   let mockFormData = {
     date: today,
     time: ["12:00"],
@@ -80,11 +82,6 @@ test("Form fields attributes", () => {
   expect(dateInput).toHaveAttribute("type", "date");
   expect(dateInput).toHaveAttribute("min");
   expect(dateInput).toHaveAttribute("value");
-  // wrong:
-  fireEvent.change(dateInput, { target: { value: "1999-12-12" } });
-
-  // right:
-  fireEvent.change(dateInput, { target: { value: "2026-06-12" } });
 
   const timeSelection = screen.getByLabelText("Choose time *");
   expect(timeSelection).toHaveAttribute("id", "res-time");
@@ -101,4 +98,12 @@ test("Form fields attributes", () => {
   const occasionSelection = screen.getByLabelText("Occasion *");
   expect(occasionSelection).toHaveValue("");
   expect(occasionSelection).toHaveAttribute("id");
+
+  // wrong:
+  //fireEvent.change(dateInput, { target: { value: "1999-12-12" } });
+  //fireEvent.change(timeSelection, { target: { value: "12:00" } });
+  //const submitButton = screen.getByText("Make Your Reseervation");
+  //console.log(submitButton, " - submitbutton");
+  // right:
+  //fireEvent.change(dateInput, { target: { value: "2026-06-12" } });
 });
