@@ -39,6 +39,7 @@ const submitAPI = function (formData) {
 };
 
 let today = new Date();
+console.log(today, " TODAY");
 
 const getDateString = (date1) => {
   let date = new Date(date1);
@@ -50,18 +51,15 @@ const getDateString = (date1) => {
 };
 
 let initializeTimes = (date) => {
-  // console.log(JSON.stringify(fetchAPI), " - fetchAPI");
   return fetchAPI(date);
 };
 let updateTimes = (state, formData) => {
-  if (new Date(formData.date) < today) {
-    throw new Error("error: past date");
-  } else {
-    // fetch times based on picked date
-    let nTimeSlots = initializeTimes(new Date(formData.date));
-    console.log(nTimeSlots, " - fetchedTimes");
-    return nTimeSlots;
-  }
+  // fetch times based on picked date. 1 date adjustment due parsing form string
+  let formDate = new Date(formData.date);
+  formDate.setDate(formDate.getDate() + 1);
+  let nTimeSlots = initializeTimes(formDate);
+  console.log(nTimeSlots, " - fetchedTimes", formData.date);
+  return nTimeSlots;
 };
 
 let Main = () => {
@@ -72,13 +70,16 @@ let Main = () => {
     initializeTimes(today),
   );
   const [formData, setFormData] = useState({
-    date: today,
-    time: availableTimes[0],
+    date: getDateString(today),
+    time: "",
     guestNum: 1,
     occasion: "",
     slot: "",
     correct: false,
+    errors: {},
   });
+
+  let setterHandler = (formData) => setFormData(formData);
 
   // after submitting:
   // 1) check if form data is correct
@@ -92,7 +93,7 @@ let Main = () => {
       );
       Navigate("/confirmed");
       setFormData({
-        date: today,
+        date: getDateString(today),
         time: "",
         guestNum: 1,
         occasion: "",
