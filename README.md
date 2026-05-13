@@ -1,6 +1,6 @@
-- Coursera Front End developer progect: restaurant page with booking module
+- Coursera Front End developer project: restaurant page with booking module
 - Project was made by standard tools: Figma, VSCode and git
-- <npm start> command will launch a localhost:3000 server
+- <npm start> command will launch a localhost server
 - <npm test> will launch all the tests
 - Figma link:  https://www.figma.com/design/l86nDB6Qt1DAjyx2a8o8jI/Untitled?t=8c0hOIvXoVXkQCxW-0
   
