@@ -98,12 +98,4 @@ test("Form fields attributes", () => {
   const occasionSelection = screen.getByLabelText("Occasion *");
   expect(occasionSelection).toHaveValue("");
   expect(occasionSelection).toHaveAttribute("id");
-
-  // wrong:
-  //fireEvent.change(dateInput, { target: { value: "1999-12-12" } });
-  //fireEvent.change(timeSelection, { target: { value: "12:00" } });
-  //const submitButton = screen.getByText("Make Your Reseervation");
-  //console.log(submitButton, " - submitbutton");
-  // right:
-  //fireEvent.change(dateInput, { target: { value: "2026-06-12" } });
 });

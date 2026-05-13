@@ -98,25 +98,15 @@ let BookingPage = (props) => {
       props.dispatch(nFormData);
       props.setFormData(nFormData);
       setFilteredSlots([]);
-      console.log(
-        e.target.value,
-        nFormData.date,
-        props.formData.errors,
-        " - dispatched",
-      );
+      console.log(e.target.value, nFormData.date, " - dispatched");
     } else {
       // if past date somehow was picked:
       let nWM = { ...warningMessages };
-      nWM.mainMessage = "Wrong date";
+      nWM.mainMessage = "Past time. Today was set";
       setWarningMessages(nWM);
       setFilteredSlots([]);
       console.log("got wrong here");
-      console.log(
-        e.target.value,
-        nFormData.date,
-
-        " - dispatched",
-      );
+      console.log(e.target.value, nFormData.date, " - dispatched");
     }
   };
 
@@ -132,9 +122,9 @@ let BookingPage = (props) => {
     nMessages.chooseTime = "";
     nMessages.chooseSlot = "*";
     nMessages.chooseOccasion = "*";
+    nMessages.mainMessage = "Please fill all lines";
     setWarningMessages(nMessages);
     setFilteredSlots(timesSlots[nFData.time]);
-    console.log(nFData.time, " - new time data");
   };
 
   let slotChange = (e) => {
@@ -216,7 +206,11 @@ let BookingPage = (props) => {
                     if (timesSlots[item].length === 0) {
                     } else {
                       return (
-                        <option key={index} value={props.availableTimes[index]}>
+                        <option
+                          data-testid="select-option"
+                          key={index}
+                          value={props.availableTimes[index]}
+                        >
                           {item}
                         </option>
                       );
@@ -286,17 +280,15 @@ let BookingPage = (props) => {
           </section>
           <section id="rules">
             <p>
-              <b>
-                {JSON.stringify(props.formData)}Rules and conditions:
-                {filteredSlots}
+              <b data-testid="stateMsgs">
+                {/*     {JSON.stringify(props.formData)} */}
+                {/* warningMessages.mainMessage */}
+                {/*JSON.stringify(timesSlots)*/}
+                Rules and conditions:
               </b>
               <br />
               <br />
-              <i>
-                {" "}
-                {JSON.stringify(timesSlots)} - timeSlots&nbsp;&nbsp;
-                Reservations and Table Management: &nbsp;
-              </i>
+              <i> Reservations and Table Management: &nbsp;</i>
               <br />
               Reservations are recommended for parties of 5+. We only seat
               complete parties to ensure table turnover times.
